@@ -6,7 +6,7 @@
         <h2>电影信息搜索</h2>
       </el-row>
       <el-row>
-        <el-input v-model="input" placeholder="请输入电影名称" @keyup.enter.native="loadData()" style="max-width: 500px;"></el-input>
+        <el-input v-model="input" placeholder="请输入电影名称" @keyup.enter.native="loadData();enter()" style="max-width: 500px;"></el-input>
       </el-row>
       <el-container>
         <el-header v-show="searched">搜索结果</el-header>
@@ -105,7 +105,8 @@
         detailFlag: false,
         count: 0,
         detail: [],
-        summary: ['String']
+        summary: ['String'],
+        flag: false
       }
     },
     created() {
@@ -120,6 +121,7 @@
         console.log('loading...')
         let url;
         url = this.url + this.input + '&start=0&count'
+
         this.$http.jsonp(url, {}, {
           headers: {
             'Referer': 'https://www.douban.com'
@@ -140,6 +142,10 @@
           }
         })
       },
+      enter() {
+        this.flag = !this.flag
+        console.log('flag:',this.flag)
+      },
       showDetails(item) {
         this.detailFlag = true;
         this.detail = item;
@@ -159,6 +165,13 @@
               message: '请求错误'
             });
           }
+        })
+      }
+    },
+    watch: {
+      flag() {
+        this.$nextTick(() => {
+          this.loadData();
         })
       }
     }

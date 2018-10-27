@@ -11,7 +11,7 @@
       <Author></Author>
       <el-row type="flex" class="row-bg" justify="center">
         <el-tabs v-model="activeName" class="center" center="true" :stretch="true" style="width:100%;">
-          <el-tab-pane label="你的名字" name="first">
+          <el-tab-pane label="电影搜索" name="first">
             <First></First>
           </el-tab-pane>
           <el-tab-pane label="正在热映" name="second">

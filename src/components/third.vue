@@ -114,9 +114,17 @@
   }
 
   .pageNums {
-    position: absolute;
-    right: 50px;
+    float: right;
+    //right: 50px;
+    &:after {
+      content: '';
+      display: block;
+      height: 0;
+      visibility: hidden;
+      clear: both;
+    }
   }
+
 
   .mask {
     background: gray;
