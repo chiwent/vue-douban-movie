@@ -8,6 +8,7 @@
       <el-row>
         <el-input v-model="input" placeholder="请输入电影名称" @keyup.enter.native="loadData();enter()" style="max-width: 500px;"></el-input>
       </el-row>
+      <keep-alive>
       <el-container>
         <el-header v-show="searched">搜索结果</el-header>
         <el-main class="container">
@@ -81,6 +82,7 @@
           </el-row>
         </el-main>
       </el-container>
+      </keep-alive>
       <el-row>
         <el-button type="success" round v-show="showPrev">上一页</el-button>
         <el-button type="success" round v-show="showNext">下一页</el-button>
@@ -106,7 +108,8 @@
         count: 0,
         detail: [],
         summary: ['String'],
-        flag: false
+        flag: false,
+        //reset: true,
       }
     },
     created() {
@@ -118,10 +121,12 @@
     },
     methods: {
       loadData() {
-        console.log('loading...')
+        //console.log('loading...')
         let url;
         url = this.url + this.input + '&start=0&count'
-
+        if (this.detailFlag) {
+          this.detailFlag = !this.detailFlag;
+        }
         this.$http.jsonp(url, {}, {
           headers: {
             'Referer': 'https://www.douban.com'
@@ -147,7 +152,7 @@
         console.log('flag:',this.flag)
       },
       showDetails(item) {
-        this.detailFlag = true;
+        this.detailFlag = !this.detailFlag;
         this.detail = item;
         let newUrl = 'https://api.douban.com/v2/movie/subject/' + item.id
         this.$http.jsonp(newUrl, {}, {
